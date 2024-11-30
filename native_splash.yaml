@@ -1,0 +1,12 @@
+flutter_native_splash:
+  android: true
+  ios: true
+  web: true
+
+  color: "#E6D4BE"
+
+  image: "assets/Images/BabyShopLogo.png"
+
+  android_12:
+  color: "#E6D4BE"
+  image: "assets/Images/BabyShopLogo.png"
