@@ -1,6 +1,9 @@
+// ignore_for_file: deprecated_member_use, avoid_print
+
 import 'package:baby_shop_hub/components/custom_navbar.dart';
 import 'package:baby_shop_hub/screens/homepage.dart';
 import 'package:baby_shop_hub/screens/loginpage.dart';
+import 'package:baby_shop_hub/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -114,9 +117,9 @@ class _ProfileState extends State<Profile> {
                             textColor: Colors.white,
                             onPressed: () {
                               Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => LoginPage()));
+                                context,
+                                MaterialPageRoute(builder: (_) => LoginPage()),
+                              );
                             },
                           ),
                           SizedBox(
@@ -130,7 +133,10 @@ class _ProfileState extends State<Profile> {
                             textColor: Color.fromARGB(255, 255, 202, 133),
                             borderColor: Color.fromARGB(255, 255, 202, 133),
                             onPressed: () {
-                              // Action for signup
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => SignUpPage()),
+                              );
                             },
                           ),
                         ],
@@ -152,7 +158,7 @@ class _ProfileState extends State<Profile> {
             ),
             SizedBox(height: screenWidth * 0.09),
             if (isLoggedIn) ...[
-// Edit Profile Container
+              // Edit Profile Container
               GestureDetector(
                 onTap: () {
                   // Action for "Edit Profile"

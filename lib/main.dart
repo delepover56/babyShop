@@ -1,9 +1,8 @@
 import 'package:baby_shop_hub/firebase/firebase_options.dart';
-import 'package:baby_shop_hub/screens/loginpage.dart';
+import 'package:baby_shop_hub/screens/profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
-import 'package:baby_shop_hub/screens/homepage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +30,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: LoginPage(),
+        home: Profile(),
       ),
     );
   }
