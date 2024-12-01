@@ -1,6 +1,5 @@
 import 'package:baby_shop_hub/firebase/firebase_options.dart';
-import 'package:baby_shop_hub/screens/cart.dart';
-import 'package:baby_shop_hub/screens/profile.dart';
+import 'package:baby_shop_hub/screens/loginpage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:toastification/toastification.dart';
@@ -22,38 +21,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  int _selectedIndex = 0;
-  void _onTap(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  Widget _setScreen() {
-    switch (_selectedIndex) {
-      case 0:
-        return Homepage(
-          selectedIndex: _selectedIndex,
-          onTap: _onTap,
-        );
-      case 1:
-        return Cart(
-          selectedIndex: _selectedIndex,
-          onTap: _onTap,
-        );
-      case 2:
-        return Profile(
-          selectedIndex: _selectedIndex,
-          onTap: _onTap,
-        );
-      default:
-        return Homepage(
-          selectedIndex: _selectedIndex,
-          onTap: _onTap,
-        );
-    }
-  }
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -64,7 +31,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: _setScreen(),
+        home: LoginPage(),
       ),
     );
   }

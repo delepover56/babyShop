@@ -2,16 +2,23 @@ import 'package:baby_shop_hub/components/custom_navbar.dart';
 import 'package:flutter/material.dart';
 
 class Cart extends StatefulWidget {
-  final int selectedIndex;
-  final void Function(int) onTap;
-
-  const Cart({super.key, required this.selectedIndex, required this.onTap});
+  const Cart({
+    super.key,
+  });
 
   @override
   State<Cart> createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
+  int selectedIndex = 0; // Add this line to manage the selected index
+
+  void onTap(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,10 +27,7 @@ class _CartState extends State<Cart> {
           'Cart',
         ),
       ),
-      bottomNavigationBar: CustomNavBar(
-        selectedIndex: widget.selectedIndex, // Access selectedIndex via widget
-        onTap: widget.onTap, // Access onTap via widget
-      ),
+      bottomNavigationBar: CustomBottomNavBar(),
     );
   }
 }
