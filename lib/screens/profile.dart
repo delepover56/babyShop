@@ -135,7 +135,9 @@ class _ProfileState extends State<Profile> {
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => SignUpPage()),
+                                MaterialPageRoute(
+                                  builder: (_) => SignUpPage(),
+                                ),
                               );
                             },
                           ),
