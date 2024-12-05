@@ -1,5 +1,6 @@
 import 'package:baby_shop_hub/components/custom_navbar.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Cart extends StatefulWidget {
   const Cart({
@@ -22,9 +23,25 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          'Cart',
+      appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: Text(
+          'My Cart',
+          style: GoogleFonts.montserrat(
+            color: Colors.black,
+            fontWeight: FontWeight.w500,
+            fontSize: 20,
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [],
         ),
       ),
       bottomNavigationBar: CustomBottomNavBar(),

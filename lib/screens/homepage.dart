@@ -1,4 +1,5 @@
 import 'package:baby_shop_hub/components/custom_navbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
@@ -13,6 +14,24 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  String _capitalizeFirstLetter(String name) {
+    if (name.isEmpty) return name;
+    return name[0].toUpperCase() + name.substring(1).toLowerCase();
+  }
+
+  User? currentUser;
+  @override
+  void initState() {
+    super.initState();
+    _currentUserStatus();
+  }
+
+  void _currentUserStatus() {
+    setState(() {
+      currentUser = FirebaseAuth.instance.currentUser;
+    });
+  }
+
   int selectedIndex = 0; // Add this line to manage the selected index
 
   void onTap(int index) {
@@ -32,7 +51,7 @@ class _HomepageState extends State<Homepage> {
           backgroundColor: Colors.transparent,
           centerTitle: true,
           title: Text(
-            'Welcome User',
+            'Welcome ${_capitalizeFirstLetter(currentUser?.displayName ?? "User")}',
             style: GoogleFonts.montserrat(
               fontSize: 20,
               fontWeight: FontWeight.w500,

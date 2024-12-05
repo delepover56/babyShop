@@ -1,80 +1,81 @@
-// ignore_for_file: deprecated_member_use, avoid_print
+// ignore_for_file: avoid_print
 
 import 'package:baby_shop_hub/components/custom_navbar.dart';
-import 'package:baby_shop_hub/screens/homepage.dart';
+import 'package:baby_shop_hub/screens/edit_profile.dart';
 import 'package:baby_shop_hub/screens/loginpage.dart';
+import 'package:baby_shop_hub/screens/payment.dart';
 import 'package:baby_shop_hub/screens/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:baby_shop_hub/controllers/auth_controller.dart';
 import 'package:hugeicons/hugeicons.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({
-    super.key,
-  });
+  const Profile({super.key});
 
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  int selectedIndex = 0; // Add this line to manage the selected index
-
-  void onTap(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+  String _capitalizeFirstLetter(String name) {
+    if (name.isEmpty) return name;
+    return name[0].toUpperCase() + name.substring(1).toLowerCase();
   }
 
-  // Variable to track if the user is logged in
-  bool isLoggedIn = false;
+  User? currentUser;
+  @override
+  void initState() {
+    super.initState();
+    _currentUserStatus();
+  }
+
+  void _currentUserStatus() {
+    setState(() {
+      currentUser = FirebaseAuth.instance.currentUser;
+    });
+  }
+  // User login status
 
   @override
   Widget build(BuildContext context) {
-    // Fetch screen dimensions
+    // Responsive design variables
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
 
-    // Responsive font size calculation
-    double responsiveFontSize = MediaQuery.textScaleFactorOf(context) * 16.0;
-
-    // Calculate dimensions dynamically
-    double avatarSize = screenWidth * 0.2; // Avatar size (20% of screen width)
-    double buttonWidth =
-        screenWidth * 0.4; // Reduced button width (40% of screen width)
-    double buttonHeight =
-        screenHeight * 0.05; // Reduced button height (5% of screen height)
+    // Scale values
+    double avatarSize = screenWidth * 0.2;
+    double buttonWidth = screenWidth * 0.4;
+    double buttonHeight = screenHeight * 0.05;
+    double paddingHorizontal = screenWidth * 0.05;
+    double spacingVertical = screenHeight * 0.02;
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Hello, User',
+          currentUser != null
+              ? 'Hello, ${_capitalizeFirstLetter(currentUser?.displayName ?? "User")}'
+              : 'Profile',
           style: GoogleFonts.montserrat(
-            fontSize: 20,
+            fontSize: screenWidth * 0.05,
             fontWeight: FontWeight.w500,
           ),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: screenWidth * 0.05, // 5% of screen width
-          vertical: screenHeight * 0.03, // 3% of screen height
-        ),
+        padding: EdgeInsets.symmetric(horizontal: paddingHorizontal),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: double.infinity,
-              height: 110,
+              height: screenHeight * 0.15,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // User Avatar
                   ClipOval(
                     child: Image.asset(
-                      isLoggedIn
+                      currentUser != null
                           ? 'assets/Images/Default_User_Pfp.jpg'
                           : 'assets/Images/Default_Gray_User_Pfp.jpg',
                       width: avatarSize,
@@ -82,30 +83,29 @@ class _ProfileState extends State<Profile> {
                       fit: BoxFit.cover,
                     ),
                   ),
-                  SizedBox(
-                      width:
-                          screenWidth * 0.04), // Space between avatar and text
+                  SizedBox(width: screenWidth * 0.04), // Space
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        if (isLoggedIn) ...[
+                        if (currentUser != null) ...[
                           Text(
-                            'Current User',
+                            _capitalizeFirstLetter(
+                                currentUser?.displayName ?? 'Guest User'),
                             style: GoogleFonts.montserrat(
-                              fontSize: responsiveFontSize * 0.8,
+                              fontSize: screenWidth * 0.045,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
                             ),
                           ),
-                          SizedBox(height: 7),
+                          SizedBox(height: spacingVertical * 0.5),
                           Text(
-                            'dummyemail@google.com',
+                            _capitalizeFirstLetter(
+                                currentUser?.email ?? 'No email available'),
                             style: GoogleFonts.roboto(
-                              fontSize: responsiveFontSize * 0.7,
+                              fontSize: screenWidth * 0.035,
                               fontWeight: FontWeight.w500,
-                              color: Colors.black,
+                              color: Colors.grey[700],
                             ),
                           ),
                         ] else ...[
@@ -113,30 +113,32 @@ class _ProfileState extends State<Profile> {
                             label: 'Log In',
                             width: buttonWidth,
                             height: buttonHeight,
-                            backgroundColor: Color.fromARGB(255, 255, 202, 133),
+                            backgroundColor:
+                                const Color.fromARGB(255, 255, 202, 133),
                             textColor: Colors.white,
                             onPressed: () {
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (_) => LoginPage()),
+                                MaterialPageRoute(
+                                  builder: (_) => const LoginPage(),
+                                ),
                               );
                             },
                           ),
-                          SizedBox(
-                              height:
-                                  screenHeight * 0.02), // Space between buttons
+                          SizedBox(height: spacingVertical),
                           _buildButton(
                             label: 'Sign Up',
                             width: buttonWidth,
                             height: buttonHeight,
                             backgroundColor: Colors.transparent,
-                            textColor: Color.fromARGB(255, 255, 202, 133),
-                            borderColor: Color.fromARGB(255, 255, 202, 133),
+                            textColor: const Color.fromARGB(255, 255, 202, 133),
+                            borderColor:
+                                const Color.fromARGB(255, 255, 202, 133),
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (_) => SignUpPage(),
+                                  builder: (_) => const SignUpPage(),
                                 ),
                               );
                             },
@@ -151,248 +153,67 @@ class _ProfileState extends State<Profile> {
                     },
                     icon: HugeIcon(
                       icon: HugeIcons.strokeRoundedSettings03,
-                      color: Colors.black,
-                      size: screenWidth * 0.06, // 6% of screen width
+                      size: screenWidth * 0.06,
+                      color: Colors.black, // Add the required color argument
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: screenWidth * 0.09),
-            if (isLoggedIn) ...[
-              // Edit Profile Container
-              GestureDetector(
+            SizedBox(height: spacingVertical * 2),
+            if (currentUser != null) ...[
+              // Option Containers
+              _buildOptionContainer(
+                icon: HugeIcons.strokeRoundedUserSharing,
+                label: 'Edit Profile',
                 onTap: () {
-                  // Action for "Edit Profile"
-                  print("Edit Profile tapped");
-                  // Add your navigation or logic here
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 8,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // Action for the button
-                          print("Edit Profile button clicked");
-                        },
-                        icon: HugeIcon(
-                          icon: HugeIcons.strokeRoundedUserSharing,
-                          color: Colors.black,
-                          size: 24.0,
-                        ),
-                      ),
-                      Text(
-                        'Edit Profile',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              SizedBox(height: screenWidth * 0.02),
-
-// Address Container
-              GestureDetector(
-                onTap: () {
-                  // Action for "Address"
-                  print("Address tapped");
-                  // Add your navigation or logic here
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 8,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // Action for the button
-                          print("Address button clicked");
-                        },
-                        icon: HugeIcon(
-                          icon: HugeIcons.strokeRoundedLocation01,
-                          color: Colors.black,
-                          size: 24.0,
-                        ),
-                      ),
-                      Text(
-                        'Address',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              SizedBox(height: screenWidth * 0.02),
-
-// Payment Method Container
-              GestureDetector(
-                onTap: () {
-                  // Action for "Payment Method"
-                  print("Payment Method tapped");
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => Homepage(),
+                      builder: (_) => EditProfile(),
                     ),
                   );
                 },
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.2),
-                        blurRadius: 8,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          // Action for the button
-                          print("Payment Method button clicked");
-                        },
-                        icon: HugeIcon(
-                          icon: HugeIcons.strokeRoundedCreditCardPos,
-                          color: Colors.black,
-                          size: 24.0,
-                        ),
-                      ),
-                      Text(
-                        'Payment Method',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
+              SizedBox(height: spacingVertical),
 
-              SizedBox(height: screenWidth * 0.1),
-
-// Sign Out Container
-              GestureDetector(
+              SizedBox(height: spacingVertical),
+              _buildOptionContainer(
+                icon: HugeIcons.strokeRoundedCreditCardPos,
+                label: 'Payment Method',
                 onTap: () {
-                  // Action for "Sign Out"
-                  print("Sign Out tapped");
-                  // Add your sign-out logic here
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => Payment()),
+                  );
                 },
-                child: Center(
-                  child: Container(
-                    padding: EdgeInsets.fromLTRB(16, 2, 24, 2),
-                    decoration: BoxDecoration(
-                      color: Colors.white, // Transparent background
-                      borderRadius: BorderRadius.circular(100),
-                      border: Border.all(
-                        color: Colors.orange, // Orange border color
-                        width: 2.0, // Border width
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 8,
-                          offset: Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            // Action for the button
-                            print("Sign Out button clicked");
-                          },
-                          icon: HugeIcon(
-                            icon: HugeIcons.strokeRoundedLogout03,
-                            color: Colors.orange, // Orange foreground color
-                            size: 24.0,
-                          ),
-                        ),
-                        Text(
-                          'Sign Out',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            color: Colors.orange, // Orange text color
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
               ),
+              SizedBox(height: spacingVertical * 2),
+              _buildSignOutButton(screenWidth),
             ] else ...[
-              SizedBox(
-                width: double.infinity,
-                height: screenHeight * 0.4,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Text(
-                        'You haven\'t logged in yet',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.montserrat(
-                          color: Colors.grey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+              // Not logged in message
+              Expanded(
+                child: Center(
+                  child: Text(
+                    'You haven\'t logged in yet',
+                    style: GoogleFonts.montserrat(
+                      fontSize: screenWidth * 0.045,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
                     ),
-                  ],
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ],
           ],
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
+      bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 
+  // Reusable button widget
   Widget _buildButton({
     required String label,
     required double width,
@@ -419,9 +240,79 @@ class _ProfileState extends State<Profile> {
         onPressed: onPressed,
         child: Text(
           label,
-          style: GoogleFonts.jua(
-            fontSize: height * 0.35, // Slightly smaller font size
+          style: GoogleFonts.montserrat(
+            fontSize: height * 0.35,
           ),
+        ),
+      ),
+    );
+  }
+
+  // Reusable option container widget
+  Widget _buildOptionContainer({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Icon(icon, size: 24, color: Colors.black),
+            const SizedBox(width: 16),
+            Text(
+              label,
+              style: GoogleFonts.montserrat(
+                fontSize: 14,
+                color: Colors.black,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Sign out button
+  Widget _buildSignOutButton(double screenWidth) {
+    return Center(
+      child: OutlinedButton(
+        onPressed: () async {
+          // Calling the signOut method
+          await AuthController().logout(context); // Pass the context here
+        },
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Colors.orange,
+          side: const BorderSide(color: Colors.orange, width: 2),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(100),
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(HugeIcons.strokeRoundedLogout03,
+                size: 20, color: Colors.orange),
+            const SizedBox(width: 8),
+            Text(
+              'Sign Out',
+              style: GoogleFonts.montserrat(fontSize: screenWidth * 0.04),
+            ),
+          ],
         ),
       ),
     );

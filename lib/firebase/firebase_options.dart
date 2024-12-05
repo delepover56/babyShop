@@ -41,48 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDKvJinbwIMfjVHK3YStkbnM41hUkEcQDM',
-    appId: '1:743483025850:web:326cf2722c95afcf539583',
-    messagingSenderId: '743483025850',
-    projectId: 'babyshopnew-689d7',
-    authDomain: 'babyshopnew-689d7.firebaseapp.com',
-    storageBucket: 'babyshopnew-689d7.firebasestorage.app',
-    measurementId: 'G-KL851H524X',
+    apiKey: 'AIzaSyCO9gDtAolAYrWr4HpIGoWU7u25ycCAyqQ',
+    appId: '1:901846426479:web:81927d1287abc4dac33e9a',
+    messagingSenderId: '901846426479',
+    projectId: 'babyshop-b4cfe',
+    authDomain: 'babyshop-b4cfe.firebaseapp.com',
+    storageBucket: 'babyshop-b4cfe.firebasestorage.app',
+    measurementId: 'G-CDFB3WX59D',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD-fSz3bqeAe6SXSqnK0zYaehJU6MHWbSE',
-    appId: '1:743483025850:android:2f7a56353e5c9b84539583',
-    messagingSenderId: '743483025850',
-    projectId: 'babyshopnew-689d7',
-    storageBucket: 'babyshopnew-689d7.firebasestorage.app',
+    apiKey: 'AIzaSyBWCLEueiAux944eadxb_U2Dpgyrgkf6SQ',
+    appId: '1:901846426479:android:add03b86a0bd7758c33e9a',
+    messagingSenderId: '901846426479',
+    projectId: 'babyshop-b4cfe',
+    storageBucket: 'babyshop-b4cfe.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDOMsj8w-KjkOhGQBScwj3bzVNELdfar3c',
-    appId: '1:743483025850:ios:29afb43f1a601b11539583',
-    messagingSenderId: '743483025850',
-    projectId: 'babyshopnew-689d7',
-    storageBucket: 'babyshopnew-689d7.firebasestorage.app',
+    apiKey: 'AIzaSyDjBJGE0mr62ri4rcIha5dF0YWXM0-NGnA',
+    appId: '1:901846426479:ios:b0381b3b90be5908c33e9a',
+    messagingSenderId: '901846426479',
+    projectId: 'babyshop-b4cfe',
+    storageBucket: 'babyshop-b4cfe.firebasestorage.app',
     iosBundleId: 'com.example.babyShop',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDOMsj8w-KjkOhGQBScwj3bzVNELdfar3c',
-    appId: '1:743483025850:ios:29afb43f1a601b11539583',
-    messagingSenderId: '743483025850',
-    projectId: 'babyshopnew-689d7',
-    storageBucket: 'babyshopnew-689d7.firebasestorage.app',
+    apiKey: 'AIzaSyDjBJGE0mr62ri4rcIha5dF0YWXM0-NGnA',
+    appId: '1:901846426479:ios:b0381b3b90be5908c33e9a',
+    messagingSenderId: '901846426479',
+    projectId: 'babyshop-b4cfe',
+    storageBucket: 'babyshop-b4cfe.firebasestorage.app',
     iosBundleId: 'com.example.babyShop',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDKvJinbwIMfjVHK3YStkbnM41hUkEcQDM',
-    appId: '1:743483025850:web:f4b259e5ebc9818e539583',
-    messagingSenderId: '743483025850',
-    projectId: 'babyshopnew-689d7',
-    authDomain: 'babyshopnew-689d7.firebaseapp.com',
-    storageBucket: 'babyshopnew-689d7.firebasestorage.app',
-    measurementId: 'G-NCNE6RR7Z1',
+    apiKey: 'AIzaSyCO9gDtAolAYrWr4HpIGoWU7u25ycCAyqQ',
+    appId: '1:901846426479:web:2aac927e1ef5e7d8c33e9a',
+    messagingSenderId: '901846426479',
+    projectId: 'babyshop-b4cfe',
+    authDomain: 'babyshop-b4cfe.firebaseapp.com',
+    storageBucket: 'babyshop-b4cfe.firebasestorage.app',
+    measurementId: 'G-67MBPKFBR0',
   );
 }
