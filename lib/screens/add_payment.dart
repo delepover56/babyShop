@@ -25,7 +25,7 @@ class CardNumberFormatter extends TextInputFormatter {
 }
 
 class AddPayment extends StatefulWidget {
-  const AddPayment({Key? key}) : super(key: key);
+  const AddPayment({super.key});
 
   @override
   State<AddPayment> createState() => _AddPaymentState();
