@@ -10,15 +10,8 @@ import 'controllers/edit_profile_controller.dart'; // Import your controller
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: FirebaseOptions(
-      apiKey: "AIzaSyCO9gDtAolAYrWr4HpIGoWU7u25ycCAyqQ",
-      authDomain: "babyshop-b4cfe.firebaseapp.com",
-      projectId: "babyshop-b4cfe",
-      storageBucket: "babyshop-b4cfe.firebasestorage.app",
-      messagingSenderId: "901846426479",
-      appId: "1:901846426479:web:81927d1287abc4dac33e9a",
-      measurementId: "G-CDFB3WX59D",
-    ),
+    options:
+        DefaultFirebaseOptions.currentPlatform, // Use the generated options
   );
   runApp(MyApp());
 }
