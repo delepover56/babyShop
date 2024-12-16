@@ -96,6 +96,8 @@ class _HomepageState extends State<Homepage> {
   }
 
   void _showProductDetailsModal(Map<String, dynamic> product) {
+    int quantity = 1; // Default quantity is 1
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -110,112 +112,155 @@ class _HomepageState extends State<Homepage> {
             padding: const EdgeInsets.all(20),
             color: Color.fromARGB(
                 255, 237, 237, 237), // Background color to match theme
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Product Image
-                Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      "http://localhost/babyshopadminpanel/${product['image']}",
-                      fit: BoxFit.cover,
-                      height: 250,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16.0),
-
-                // Product Name
-                Text(
-                  product['name'] ?? 'Unknown Product',
-                  style: GoogleFonts.montserrat(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(height: 8.0),
-
-                // Product Price
-                Text(
-                  '\$${product['price'] ?? '0'}',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
-                  ),
-                ),
-                SizedBox(height: 16.0),
-
-                // Product Description
-                Text(
-                  product['description'] ?? 'No description available.',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black.withOpacity(0.7),
-                  ),
-                ),
-                SizedBox(height: 24.0),
-
-                // Add to Cart Button
-                Center(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(
-                          255, 226, 179, 123), // Match theme color
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+            child: StatefulBuilder(
+              builder: (context, setState) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Product Image
+                    Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                          "http://localhost/babyshopadminpanel/${product['image']}",
+                          fit: BoxFit.cover,
+                          height: 250,
+                        ),
                       ),
-                      padding:
-                          EdgeInsets.symmetric(vertical: 16, horizontal: 40),
                     ),
-                    onPressed: () {
-                      if (currentUser == null) {
-                        // If the user is not logged in, redirect to login
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('Please login first'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginPage(),
-                          ),
-                        );
-                      } else {
-                        // Call addToCart without the userId parameter
-                        _cartController.addToCart(
-                          productId: product['id'],
-                          name: product['name'],
-                          image: product['image'],
-                          price: product['price'],
-                          description: product['description'],
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text('${product['name']} added to cart'),
-                            duration: Duration(seconds: 2),
-                          ),
-                        );
-                        Navigator.pop(
-                            context); // Close the modal after adding to cart
-                      }
-                    },
-                    child: Text(
-                      'Add to Cart',
+                    SizedBox(height: 16.0),
+
+                    // Product Name
+                    Text(
+                      product['name'] ?? 'Unknown Product',
                       style: GoogleFonts.montserrat(
-                        fontSize: 16,
+                        fontSize: 22,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
-                  ),
-                ),
-              ],
+                    SizedBox(height: 8.0),
+
+                    // Product Price
+                    Text(
+                      '\$${product['price'] ?? '0'}',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+
+                    // Product Description
+                    Text(
+                      product['description'] ?? 'No description available.',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black.withOpacity(0.7),
+                      ),
+                    ),
+                    SizedBox(height: 24.0),
+
+                    // Quantity Selector
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // Decrement Button
+                        IconButton(
+                          onPressed: () {
+                            if (quantity > 1) {
+                              setState(() {
+                                quantity--;
+                              });
+                            }
+                          },
+                          icon: Icon(Icons.remove, color: Colors.black),
+                        ),
+                        // Quantity Display
+                        Text(
+                          '$quantity',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        // Increment Button
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              quantity++;
+                            });
+                          },
+                          icon: Icon(Icons.add, color: Colors.black),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 24.0),
+
+                    // Add to Cart Button
+                    Center(
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(
+                              255, 226, 179, 123), // Match theme color
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16, horizontal: 40),
+                        ),
+                        onPressed: () {
+                          if (currentUser == null) {
+                            // If the user is not logged in, redirect to login
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('Please login first'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginPage(),
+                              ),
+                            );
+                          } else {
+                            // Pass the quantity to addToCart
+                            _cartController.addToCart(
+                              productId: product['id'],
+                              name: product['name'],
+                              image: product['image'],
+                              price: product['price'],
+                              description: product['description'],
+                              quantity: quantity, // Pass quantity here
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                    '${product['name']} (x$quantity) added to cart'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                            Navigator.pop(
+                                context); // Close the modal after adding to cart
+                          }
+                        },
+                        child: Text(
+                          'Add to Cart',
+                          style: GoogleFonts.montserrat(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
             ),
           ),
         );
@@ -453,8 +498,9 @@ class _HomepageState extends State<Homepage> {
                                       imageUrl,
                                       loadingBuilder:
                                           (context, child, loadingProgress) {
-                                        if (loadingProgress == null)
+                                        if (loadingProgress == null) {
                                           return child;
+                                        }
                                         return Center(
                                             child: CircularProgressIndicator());
                                       },

@@ -136,7 +136,7 @@ class _PaymentState extends State<Payment> {
                       'Card Number', paymentDetails?['cardNumber']),
                   _buildPaymentDetail(
                       'Card Holder', paymentDetails?['cardHolderName']),
-                  _buildPaymentDetail('MM/YYYY', paymentDetails?['expiryDate']),
+                  _buildPaymentDetail('MM/YY', paymentDetails?['expiryDate']),
                   _buildPaymentDetail('CVV', paymentDetails?['cvv']),
                   _buildPaymentDetail(
                       'Shipping Address', paymentDetails?['address']),

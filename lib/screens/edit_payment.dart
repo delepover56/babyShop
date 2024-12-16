@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:baby_shop_hub/controllers/payments_controller.dart';
 
 class EditPayment extends StatefulWidget {
@@ -57,40 +58,127 @@ class _EditPaymentState extends State<EditPayment> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Edit Payment Details')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            TextField(
-              controller: _cardNumberController,
-              decoration: const InputDecoration(labelText: 'Card Number'),
-            ),
-            TextField(
-              controller: _cardHolderController,
-              decoration: const InputDecoration(labelText: 'Card Holder Name'),
-            ),
-            TextField(
-              controller: _expiryDateController,
-              decoration: const InputDecoration(labelText: 'Expiry Date'),
-            ),
-            TextField(
-              controller: _cvvController,
-              decoration: const InputDecoration(labelText: 'CVV'),
-            ),
-            TextField(
-              controller: _addressController,
-              decoration: const InputDecoration(labelText: 'Address'),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: savePayment,
-              child: const Text('Save Payment Details'),
-            ),
-          ],
+      appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: Text(
+          'Edit Payment',
+          style: GoogleFonts.montserrat(
+            fontSize: screenWidth * 0.06, // Responsive font size
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth * 0.08,
+          vertical: screenHeight * 0.05,
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildInputField(
+                    label: 'Card Number:',
+                    controller: _cardNumberController,
+                  ),
+                  _buildInputField(
+                    label: 'Card Holder Name:',
+                    controller: _cardHolderController,
+                  ),
+                  _buildInputField(
+                    label: 'Expiry Date:',
+                    controller: _expiryDateController,
+                  ),
+                  _buildInputField(
+                    label: 'CVV:',
+                    controller: _cvvController,
+                  ),
+                  _buildInputField(
+                    label: 'Address:',
+                    controller: _addressController,
+                  ),
+                  SizedBox(height: screenHeight * 0.02), // Proportional spacing
+                  Center(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.orange[300],
+                        foregroundColor: Colors.black,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: screenWidth * 0.2,
+                          vertical: screenHeight * 0.02,
+                        ),
+                        elevation: 2.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                      onPressed: savePayment,
+                      child: Text(
+                        'Save Changes',
+                        style: GoogleFonts.montserrat(
+                          fontSize: screenWidth * 0.045,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildInputField({
+    required String label,
+    required TextEditingController controller,
+  }) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: GoogleFonts.montserrat(
+            fontSize: screenWidth * 0.045,
+            color: const Color.fromARGB(255, 255, 255, 255),
+          ),
+        ),
+        SizedBox(height: screenHeight * 0.001), // Proportional spacing
+        TextFormField(
+          controller: controller,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: const BorderSide(
+                color: Color.fromARGB(255, 255, 0, 0),
+                width: 2.0,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              borderSide: const BorderSide(
+                color: Color.fromARGB(255, 169, 169, 169),
+                width: 2.0,
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: screenHeight * 0.015), // Proportional spacing
+      ],
     );
   }
 }
